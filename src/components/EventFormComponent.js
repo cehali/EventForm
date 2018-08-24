@@ -8,16 +8,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import { connect } from 'react-redux';
+import { fetchPosts } from "../action/postAction";
 
 
 class EventFormComponent extends React.Component {
-
-    state = {
-        name: 'Cat in the Hat',
-        age: '',
-        multiline: 'Controlled',
-        currency: 'EUR',
-    };
 
     date = new Date();
 
@@ -25,30 +20,36 @@ class EventFormComponent extends React.Component {
         this.setState({ [prop]: event.target.value });
     };
 
+    componentWillMount(){
+        this.props.fetchPosts();
+    }
+
     render() {
         return(
-            <Card>
+            <h3>{ this.props.newPost1 }</h3>
+
+            /*<Card>
                 <CardContent>
                     <Typography component="h2">Please provide following information</Typography>
                     <form noValidate>
                         <TextField
                             id="firstname"
                             label="First Name"
-                            value={this.state.firstname}
+                            value={this.props.firstname}
                             onChange={this.handleChange('firstname')}
                             margin="normal"
                         />
                         <TextField
                             id="lastname"
                             label="Last Name"
-                            value={this.state.lastname}
+                            value={this.props.firstname}
                             onChange={this.handleChange('lastname')}
                             margin="normal"
                         />
                         <TextField
                             id="email"
                             label="Email"
-                            value={this.state.email}
+                            value={this.props.firstname}
                             onChange={this.handleChange('email')}
                             margin="normal"
                         />
@@ -56,7 +57,8 @@ class EventFormComponent extends React.Component {
                             id="date"
                             label="Date"
                             type="date"
-                            defaultValue={this.date.getFullYear()+'-'+this.date.getMonth()+'-'+this.date.getDate()}
+                            defaultValue={this.date.getFullYear() + '-' + ('0' + (this.date.getMonth()+1)).slice(-2) +
+                            '-' + ('0' + this.date.getDate()).slice(-2) }
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -66,10 +68,18 @@ class EventFormComponent extends React.Component {
                 <CardActions>
                     <Button variant="contained" color="primary">Save</Button>
                 </CardActions>
-            </Card>
+            </Card>*/
         );
     }
 }
 
+EventFormComponent.propTypes = {
+    fetchPosts: PropTypes.func.isRequired,
+    posts: PropTypes.array.isRequired,
+};
 
-export default EventFormComponent;
+const mapStateToProps = state => ({
+    posts: state.posts.items,
+});
+
+export default connect(mapStateToProps, { fetchPosts })(EventFormComponent);
