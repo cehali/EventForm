@@ -9,26 +9,24 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
-import { fetchPosts } from "../action/postAction";
+import {  } from "../action/postAction";
 
 
 class EventFormComponent extends React.Component {
 
-    date = new Date();
 
     handleChange = prop => event => {
         this.setState({ [prop]: event.target.value });
     };
 
     componentWillMount(){
-        this.props.fetchPosts();
     }
 
     render() {
-        return(
-            <h3>{ this.props.newPost1 }</h3>
+        const { crr_date } = this.props;
 
-            /*<Card>
+        return(
+            <Card>
                 <CardContent>
                     <Typography component="h2">Please provide following information</Typography>
                     <form noValidate>
@@ -42,14 +40,14 @@ class EventFormComponent extends React.Component {
                         <TextField
                             id="lastname"
                             label="Last Name"
-                            value={this.props.firstname}
+                            value={this.props.lastname}
                             onChange={this.handleChange('lastname')}
                             margin="normal"
                         />
                         <TextField
                             id="email"
                             label="Email"
-                            value={this.props.firstname}
+                            value={this.props.email}
                             onChange={this.handleChange('email')}
                             margin="normal"
                         />
@@ -57,8 +55,7 @@ class EventFormComponent extends React.Component {
                             id="date"
                             label="Date"
                             type="date"
-                            defaultValue={this.date.getFullYear() + '-' + ('0' + (this.date.getMonth()+1)).slice(-2) +
-                            '-' + ('0' + this.date.getDate()).slice(-2) }
+                            defaultValue={crr_date}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -68,18 +65,17 @@ class EventFormComponent extends React.Component {
                 <CardActions>
                     <Button variant="contained" color="primary">Save</Button>
                 </CardActions>
-            </Card>*/
+            </Card>
         );
     }
 }
 
 EventFormComponent.propTypes = {
-    fetchPosts: PropTypes.func.isRequired,
-    posts: PropTypes.array.isRequired,
+    crr_date: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({
-    posts: state.posts.items,
-});
+const mapStateToProps = state => {
+    return {crr_date: state.crr_date}
+};
 
-export default connect(mapStateToProps, { fetchPosts })(EventFormComponent);
+export default connect(mapStateToProps, {  })(EventFormComponent);

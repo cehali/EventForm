@@ -3,7 +3,7 @@ import './App.css'
 import { Provider } from 'react-redux';
 import EventFormComponent from './components/EventFormComponent';
 
-import store from './store';
+import store from './reducers/postReducer';
 
 class App extends Component {
     render() {
